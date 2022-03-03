@@ -4,7 +4,7 @@ const BearerStrategy = require('passport-http-bearer').Strategy
 
 const Usuario = require('./usuarios-modelo')
 const { InvalidArgumentError } = require('../erros')
-const { ExpirationError } = require('../erros')
+//const { ExpirationError } = require('../erros')
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -22,14 +22,14 @@ async function verificaSenha(senha, senhaHash){
     }
 }
 
-function verificaExpiracao(tempoExpiracao) {
+/*function verificaExpiracao(tempoExpiracao) {
     console.log(tempoExpiracao)
     console.log(Date.now())
     if (!tempoExpiracao || tempoExpiracao < Date.now()) {
         console.log('tempoExpiracao')
         throw new ExpirationError('Token expirado!');
     }
-}
+}*/
 
 passport.use(
     new LocalStrategy({
@@ -56,7 +56,7 @@ passport.use(
             try {
             const payload = jwt.verify(token, process.env.CHAVE_JWT)
             const usuario = await Usuario.buscaPorId(payload.id)
-            verificaExpiracao(payload.expiraEm)
+            //verificaExpiracao(payload.expiraEm)
             done(null, usuario)
             } catch (erro){
                 done(erro)

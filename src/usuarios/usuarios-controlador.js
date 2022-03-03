@@ -4,13 +4,11 @@ const { InvalidArgumentError, InternalServerError } = require('../erros');
 const jwt = require('jsonwebtoken')
 
 function criaTokenJWT(usuario){
-  const tempoExpira = 432000000
   const payload = {
-    id: usuario.id,
-    expiraEm: Date.now() + tempoExpira
+    id: usuario.id
   }
 
-  const token = jwt.sign(payload, process.env.CHAVE_JWT)
+  const token = jwt.sign(payload, process.env.CHAVE_JWT, {expiresIn: '15m'})
   return token
 }
 
